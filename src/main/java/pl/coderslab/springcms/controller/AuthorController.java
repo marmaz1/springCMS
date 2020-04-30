@@ -65,4 +65,11 @@ public class AuthorController {
         return "redirect:/authors";
     }
 
+    @GetMapping("/delete")
+    public String deleteAuthor(@RequestParam Long id){
+        Author author=authorDao.finById(id);
+        authorDao.delete(author);
+        return "redirect:/authors";
+    }
+
 }
