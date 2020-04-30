@@ -64,6 +64,12 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
+    @GetMapping("/delete")
+    public String deleteCategory(@RequestParam Long id) {
+        Category category=categoryDao.findById(id);
+        categoryDao.delete(category);
+        return "redirect:/categories";
+    }
 
 
 }
