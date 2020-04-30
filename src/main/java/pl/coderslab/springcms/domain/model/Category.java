@@ -17,7 +17,6 @@ public class Category {
     @Column(nullable = true)
     private String description;
 
-
     @Override
     public String toString() {
         return "Category{" +

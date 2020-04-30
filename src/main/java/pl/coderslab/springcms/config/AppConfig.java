@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
-@ComponentScan
+@ComponentScan(basePackages = "pl.coderslab")
 @EnableWebMvc
 @EnableTransactionManagement
 public class AppConfig {

@@ -1,5 +1,8 @@
 package pl.coderslab.springcms.domain.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -12,17 +15,23 @@ public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(length = 200)
     private String title;
+
     @OneToOne
     @JoinColumn(name = "author_id")
     private Author author;
+
     @OneToMany
     @JoinColumn(name = "categories_id")
     private Set<Category> categories= new HashSet<>();
+
     private String content;
+    
     @Column()
     private LocalDateTime created;
+
     private LocalDateTime updated;
 
     @PrePersist //nadanie wartosci czasowej PRZED zapisem
