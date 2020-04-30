@@ -29,8 +29,9 @@ public class ArticleDao {
     }
 
     public List<Article> findAll(){
-        TypedQuery <Article> query=entityManager.createQuery("SELECT a FROM Article a",Article.class);
+        TypedQuery <Article> query=entityManager.createQuery("SELECT a FROM Article a LEFT JOIN FETCH a.categories",Article.class);
         List<Article> articles=query.getResultList();
+
         return articles;
     }
 
