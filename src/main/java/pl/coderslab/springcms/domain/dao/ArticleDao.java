@@ -25,7 +25,9 @@ public class ArticleDao {
     }
 
     public Article findById(Long id){
-       return entityManager.find(Article.class,id);
+        Article article=entityManager.find(Article.class,id);
+        Hibernate.initialize(article.getCategories());
+        return article;
     }
 
     public List<Article> findAll(){
