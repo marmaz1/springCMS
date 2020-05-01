@@ -81,6 +81,13 @@ public class ArticleController {
         return "redirect:/articles";
     }
 
+    @GetMapping("/delete")
+    public String deleteArticle(@RequestParam Long id){
+        Article article=articleDao.findById(id);
+        articleDao.delete(article);
+        return "redirect:/articles";
+    }
+
 
 
 }
