@@ -60,7 +60,10 @@ public class CategoryController {
 
     @PostMapping("/edit")
     public String processEditCategoryForm(Category category){
-        categoryDao.update(category);
+        Category originalCategory=categoryDao.findById(category.getId());
+        originalCategory.setName(category.getName());
+        originalCategory.setDescription(category.getDescription());
+        categoryDao.update(originalCategory);
         return "redirect:/categories";
     }
 

@@ -61,7 +61,12 @@ public class AuthorController {
 
     @PostMapping("/edit")
     public String processEditAuthorForm(Author author){
-        authorDao.update(author);
+        Author originalAuthor=authorDao.finById(author.getId());
+        originalAuthor.setFirstName(author.getFirstName());
+        originalAuthor.setLastName(author.getLastName());
+
+
+        authorDao.update(originalAuthor);
         return "redirect:/authors";
     }
 

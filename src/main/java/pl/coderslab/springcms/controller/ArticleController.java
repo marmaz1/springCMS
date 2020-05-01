@@ -75,8 +75,13 @@ public class ArticleController {
 
     @PostMapping("/edit")
     public String processEditArticleForm(Article article){
-        article.setCreated(article.getCreated());   //zeby przekazywalo pierwotna date utworzenia
-        articleDao.update(article);
+        Article originalArticle=articleDao.findById(article.getId());
+        originalArticle.setTitle(article.getTitle());
+        originalArticle.setContent(article.getContent());
+        originalArticle.setAuthor(article.getAuthor());
+        originalArticle.setCategories(article.getCategories());
+        
+        articleDao.update(originalArticle);
 
         return "redirect:/articles";
     }
