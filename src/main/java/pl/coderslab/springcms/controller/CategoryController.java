@@ -1,23 +1,30 @@
 package pl.coderslab.springcms.controller;
 
 import org.dom4j.rule.Mode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
+import pl.coderslab.springcms.converters.CategoryConverter;
 import pl.coderslab.springcms.domain.dao.CategoryDao;
 import pl.coderslab.springcms.domain.model.Category;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("/categories")
 public class CategoryController {
+
+    private static final Logger log= LoggerFactory.getLogger(CategoryConverter.class);
 
     private final CategoryDao categoryDao;
     @Autowired
@@ -41,7 +48,13 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public String processAddCategoryForm(Category category){
+    public String processAddCategoryForm(@Valid Category category, BindingResult result){
+
+        if(result.hasErrors()){
+            log.warn("bledne dane dodawania kategorii");
+            return "categories/add";
+        }
+
         categoryDao.create(category);
         return "redirect:/categories";
     }
@@ -59,7 +72,13 @@ public class CategoryController {
     }
 
     @PostMapping("/edit")
-    public String processEditCategoryForm(Category category){
+    public String processEditCategoryForm(@Valid Category category, BindingResult result){
+
+        if(result.hasErrors()){
+            log.warn("bledne dane edycji kategorii");
+            return "categories/edit";
+        }
+
         Category originalCategory=categoryDao.findById(category.getId());
         originalCategory.setName(category.getName());
         originalCategory.setDescription(category.getDescription());
