@@ -1,9 +1,12 @@
 package pl.coderslab.springcms.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.springcms.domain.dao.ArticleDao;
@@ -13,12 +16,15 @@ import pl.coderslab.springcms.domain.model.Article;
 import pl.coderslab.springcms.domain.model.Author;
 import pl.coderslab.springcms.domain.model.Category;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
 @RequestMapping("/articles")
 public class ArticleController {
+
+    private static final Logger log= LoggerFactory.getLogger(ArticleController.class);
 
     private final ArticleDao articleDao;
     private final AuthorDao authorDao;
@@ -57,7 +63,13 @@ public class ArticleController {
     }
 
     @PostMapping("/add")
-    public String processAddArticleForm(Article article){
+    public String processAddArticleForm(@Valid Article article, BindingResult result){
+
+        if(result.hasErrors() ){
+            log.warn("bledne dane dodawania artykulu");
+            return "articles/add";
+        }
+
         articleDao.create(article);
         return "redirect:/articles";
     }
@@ -74,7 +86,13 @@ public class ArticleController {
     }
 
     @PostMapping("/edit")
-    public String processEditArticleForm(Article article){
+    public String processEditArticleForm(@Valid Article article, BindingResult result){
+
+        if(result.hasErrors()){
+            log.warn("bledne dane edycji artykulu");
+            return "articles/edit";
+        }
+
         Article originalArticle=articleDao.findById(article.getId());
         originalArticle.setTitle(article.getTitle());
         originalArticle.setContent(article.getContent());
