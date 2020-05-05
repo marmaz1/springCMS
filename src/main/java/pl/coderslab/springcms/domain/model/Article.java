@@ -4,6 +4,8 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +19,8 @@ public class Article {
     private Long id;
 
     @Column(length = 200)
+    @NotNull
+    @Size(max = 200)
     private String title;
 
     @OneToOne
@@ -25,8 +29,11 @@ public class Article {
 
     @OneToMany
     @JoinColumn(name = "categories_id")
+    @Size(min = 1)
     private Set<Category> categories= new HashSet<>();
 
+    @NotNull
+    @Size(min = 500)
     private String content;
     
     @Column()

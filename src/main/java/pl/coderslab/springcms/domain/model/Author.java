@@ -1,6 +1,7 @@
 package pl.coderslab.springcms.domain.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "authors")
@@ -9,7 +10,10 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
 
 

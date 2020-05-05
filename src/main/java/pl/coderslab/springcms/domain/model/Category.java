@@ -2,6 +2,8 @@ package pl.coderslab.springcms.domain.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "categories")
@@ -12,6 +14,8 @@ public class Category {
     private Long id;
 
     @Column(length = 100)
+    @Size(min = 5)
+    @NotNull
     private String name;
 
     @Column(nullable = true)
