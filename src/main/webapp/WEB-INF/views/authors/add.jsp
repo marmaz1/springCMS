@@ -16,10 +16,10 @@
 <form:form method="post" modelAttribute="author">
 
     <form:label path="firstName">First name: </form:label>
-    <form:input path="firstName"/>
+    <form:input path="firstName"/><form:errors path="firstName"/><br>
 
     <form:label path="lastName">Last name: </form:label>
-    <form:input path="lastName"/>
+    <form:input path="lastName"/><form:errors path="lastName"/><br>
 
     <form:button>Add</form:button>
 

@@ -18,10 +18,10 @@
 <form:form method="post" modelAttribute="category">
 
     <form:label path="name">Name: </form:label>
-    <form:input path="name"/>
+    <form:input path="name"/><form:errors path="name"/><br>
 
     <form:label path="description">Description: </form:label>
-    <form:input path="description"/>
+    <form:input path="description"/><form:errors path="description"/><br>
 
     <form:button>Add</form:button>
 
