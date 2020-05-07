@@ -3,14 +3,13 @@ package pl.coderslab.springcms.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.springcms.domain.dao.ArticleDao;
 import pl.coderslab.springcms.domain.model.Article;
 import pl.coderslab.springcms.validations.groups.DraftValidationGroup;
@@ -57,6 +56,33 @@ public class DraftController {
         return "redirect:/drafts";
     }
 
+    @GetMapping("/edit")
+    public String editDraftForm(@RequestParam Long id, Model model){
+        Article draft=articleDao.findById(id);
+
+        if(draft == null){
+          throw new  ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        model.addAttribute("draft",draft);
+        return "drafts/edit";
+    }
+
+    @PostMapping("/edit")
+    public String processEditDraftForm( @Validated(DraftValidationGroup.class) @ModelAttribute("draft") Article article, BindingResult result){
+
+        if(result.hasErrors()){
+            log.warn("bledne dane edycji szkicu");
+            return "drafts/add";
+        }
+
+        Article originalDraft=articleDao.findById(article.getId());
+        originalDraft.setTitle(article.getTitle());
+        originalDraft.setContent(article.getContent());
+        articleDao.update(originalDraft);
+
+        return "redirect:/drafts";
+
+    }
 
 
 }
