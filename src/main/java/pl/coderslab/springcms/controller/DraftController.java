@@ -5,12 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.springcms.domain.dao.ArticleDao;
 import pl.coderslab.springcms.domain.model.Article;
+import pl.coderslab.springcms.validations.groups.DraftValidationGroup;
 
 import java.util.List;
 
@@ -43,7 +46,13 @@ public class DraftController {
     }
 
     @PostMapping("/add")
-    public String processAddDraftForm(@ModelAttribute("draft") Article article){
+    public String processAddDraftForm(@Validated(DraftValidationGroup.class) @ModelAttribute("draft") Article article, BindingResult result){
+
+        if(result.hasErrors()){
+            log.warn("bledne dane dodawania szkicu");
+            return "drafts/add";
+        }
+
         articleDao.create(article);
         return "redirect:/drafts";
     }

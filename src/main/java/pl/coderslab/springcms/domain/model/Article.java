@@ -2,6 +2,8 @@ package pl.coderslab.springcms.domain.model;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import pl.coderslab.springcms.validations.groups.ArticleValidationGroup;
+import pl.coderslab.springcms.validations.groups.DraftValidationGroup;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -19,8 +21,8 @@ public class Article {
     private Long id;
 
     @Column(length = 200)
-    @NotNull
-    @Size(max = 200)
+    @NotNull(groups = {ArticleValidationGroup.class,DraftValidationGroup.class})
+    @Size(max = 200, groups = {ArticleValidationGroup.class, DraftValidationGroup.class})
     private String title;
 
     @OneToOne
@@ -29,11 +31,11 @@ public class Article {
 
     @OneToMany
     @JoinColumn(name = "categories_id")
-    @Size(min = 1)
+    @Size(min = 1, groups = ArticleValidationGroup.class)
     private Set<Category> categories= new HashSet<>();
 
-    @NotNull
-    @Size(min = 5)
+    @NotNull(groups = DraftValidationGroup.class)
+    @Size(min = 5,groups = {DraftValidationGroup.class, ArticleValidationGroup.class})
     private String content;
 
     private boolean draft;

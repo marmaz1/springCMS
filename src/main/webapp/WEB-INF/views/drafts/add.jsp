@@ -16,12 +16,12 @@
 <form:form modelAttribute="draft" method="post">
 
     <form:label path="title">Title:
-        <form:input path="title"/>
-    </form:label>
+        <form:input path="title"/><form:errors path="title"/>
+    </form:label><br>
 
     <form:label path="content">Content:
-        <form:input path="content"/>
-    </form:label>
+        <form:input path="content"/><form:errors path="content"/>
+    </form:label><br>
 
     <form:hidden path="draft" value="true"/>
 

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import pl.coderslab.springcms.domain.dao.ArticleDao;
@@ -15,6 +16,7 @@ import pl.coderslab.springcms.domain.dao.CategoryDao;
 import pl.coderslab.springcms.domain.model.Article;
 import pl.coderslab.springcms.domain.model.Author;
 import pl.coderslab.springcms.domain.model.Category;
+import pl.coderslab.springcms.validations.groups.ArticleValidationGroup;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -63,7 +65,7 @@ public class ArticleController {
     }
 
     @PostMapping("/add")
-    public String processAddArticleForm(@Valid Article article, BindingResult result){
+    public String processAddArticleForm(@Validated(ArticleValidationGroup.class) Article article, BindingResult result){
 
         if(result.hasErrors() ){
             log.warn("bledne dane dodawania artykulu");
@@ -86,7 +88,7 @@ public class ArticleController {
     }
 
     @PostMapping("/edit")
-    public String processEditArticleForm(@Valid Article article, BindingResult result){
+    public String processEditArticleForm(@Validated(ArticleValidationGroup.class) Article article, BindingResult result){
 
         if(result.hasErrors()){
             log.warn("bledne dane edycji artykulu");
