@@ -84,5 +84,12 @@ public class DraftController {
 
     }
 
+    @GetMapping("/delete")
+    public String deleteDraft(@RequestParam Long id){
+        Article draft=articleDao.findById(id);
+        articleDao.delete(draft);
+        return "redirect:/drafts";
+    }
+
 
 }
