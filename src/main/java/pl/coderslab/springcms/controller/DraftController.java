@@ -31,7 +31,7 @@ public class DraftController {
 
     @GetMapping
     public String showDrafts(Model model){
-        List<Article> drafts = articleDao.findAll();
+        List<Article> drafts = articleDao.findAllDrafts();
 
         model.addAttribute("drafts",drafts);
         return "drafts/list";
