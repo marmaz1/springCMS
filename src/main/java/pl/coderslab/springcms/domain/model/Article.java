@@ -33,8 +33,10 @@ public class Article {
     private Set<Category> categories= new HashSet<>();
 
     @NotNull
-    @Size(min = 500)
+    @Size(min = 5)
     private String content;
+
+    private boolean draft;
     
     @Column()
     private LocalDateTime created;
@@ -63,6 +65,14 @@ public class Article {
                 ", created=" + created +
                 ", updated=" + updated +
                 '}';
+    }
+
+    public boolean isDraft() {
+        return draft;
+    }
+
+    public void setDraft(boolean draft) {
+        this.draft = draft;
     }
 
     public Long getId() {
